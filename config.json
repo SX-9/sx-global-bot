@@ -1,10 +1,8 @@
 {
-    "bot": {
-        "token": ""
-    },
-    "channels": {
-        "one": "",
-        "two": "",
-        "three": ""
-    }
+    "channels": [
+        "channel id 1",
+        "2",
+        "and 3",
+        "etc..."
+    ]
 }

@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client({ 
     intents: ['GUILDS', 'GUILD_MEMBERS', 'GUILD_MESSAGES', 'GUILD_MESSAGE_REACTIONS']
 });
-const config = require('./config.json');
+const { channels } = require('./config.json');
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
@@ -15,27 +15,15 @@ client.on('message', msg => {
         .setColor('BLUE')
         .setAuthor(msg.author.username, msg.author.avatarURL())
         .setDescription(`${msg.content}`)
-        .setTimestamp(new Date());
+        .setTimestamp(new Date())
+        .setFooter("Sent From " + msg.guild.name);
     let cache = client.channels.cache;
     let channel = msg.channel;
-    if (channel.id === config.channels.one) {
-        msg.delete();
-        channel.send(embed.setFooter('Sent From Here'));
-        cache.get(config.channels.two).send(embed.setFooter('Sent From ' + channel.name));
-        cache.get(config.channels.three).send(embed.setFooter('Sent From ' + channel.name));
-    }
-    if (channel.id === config.channels.two) {
-        msg.delete();
-        channel.send(embed.setFooter('Sent From Here'));
-        cache.get(config.channels.one).send(embed.setFooter('Sent From ' + channel.name));
-        cache.get(config.channels.three).send(embed.setFooter('Sent From ' + channel.name));
-    }
-    if (channel.id === config.channels.three) {
-        msg.delete();
-        channel.send(embed.setFooter('Sent From Here'));
-        cache.get(config.channels.one).send(embed.setFooter('Sent From ' + channel.name));
-        cache.get(config.channels.two).send(embed.setFooter('Sent From ' + channel.name));
+    for (let i = 0; i < channels.length; i++) {
+        if (channel.name === channels[i]) {
+            cache.get(channels[i]).send();
+        }
     }
 });
 
-client.login(config.bot.token);
+client.login(process.env.token);
