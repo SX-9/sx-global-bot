@@ -13,6 +13,8 @@ client.on('ready', () => {
 client.on('message', msg => {
     if (msg.author.bot) return;
     if (msg.content.startsWith("mv!register")) {
+        if (channels.includes(msg.channel.id)) return msg.channel.send("This channel is already registered!");
+        if (!msg.member.hasPermission("ADMINISTRATOR")) return msg.channel.send("You need to be an ADMINISTRATOR to register this channel!");
         channels.push(msg.channel.id);
         fs.writeFileSync('./db.json', JSON.stringify(channels));
         msg.channel.send("Current channel registered.");
@@ -31,7 +33,13 @@ client.on('message', msg => {
             msg.delete();
             channels.forEach(c2 => {
                 try {
-                    cache.get(c2).send(embed);
+                    if (msg.attachments.size > 0) {
+                        msg.attachments.forEach(a => {
+                            cache.get(c2).send(embed.attachFiles(a.url));
+                        });
+                    } else {
+                        cache.get(c2).send(embed);
+                    }
                 } catch {
                     delete channels[c2];
                 }
@@ -40,4 +48,4 @@ client.on('message', msg => {
     });
 });
 
-client.login(process.env.token || "token here");
+client.login(process.env.token || "token");
