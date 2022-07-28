@@ -17,6 +17,8 @@ client.on('message', msg => {
     let embed2 = new Discord.MessageEmbed()
         .setAuthor("System", msg.guild.iconURL())
         .setTimestamp(new Date())
+        .setColor('GREEN')
+        .setDescription(`${msg.guild.name} has joined us!`)
         .setFooter("Sent From " + msg.guild.name + " | Made By sx9.is-a.dev");
     if (msg.content.startsWith("mv!register")) {
         if (channels.includes(msg.channel.id)) return msg.channel.send("This channel is already registered!");
@@ -25,7 +27,9 @@ client.on('message', msg => {
         fs.writeFileSync('./db.json', JSON.stringify(channels));
         msg.channel.send("Current channel registered.");
         channels.forEach(channel => {
-            cache.get(channel).send(embed2.setColor('GREEN').setDescription(`${msg.guild.name} has joined us!`));
+            try {
+                cache.get(channel).send(embed2);
+            } catch {} 
         });
         return;
     }
