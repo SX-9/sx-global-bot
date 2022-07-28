@@ -49,9 +49,6 @@ client.on('message', msg => {
                     }
                 } catch {
                     delete channels[c2];
-                    channels.forEach(c3 => {
-                        cache.get(c3).send(embed2.setColor('RED').setDescription(`${msg.guild.name} has left us!`));
-                    });
                 }
             });
         }
