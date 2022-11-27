@@ -3,15 +3,15 @@ name: 'Deploy To Server'
 on: [push]
 
 jobs:
-    upload_to_host:
+  upload_to_host:
     runs-on: ubuntu-latest
     steps:
-        uses: actions/checkout@v2
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+      - uses: actions/checkout@v2
+      - uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
-            username: 'sx-dev.8e13ccf4'
-            server: 'n7.danbot.host'
-            port: '2022'
-            password: ${{ secrets.SFTP_PASS }}
-            local_path: './*'
-            remote_path: '/'
+          username: 'sx-dev.8e13ccf4'
+          server: 'n7.danbot.host'
+          port: '2022'
+          password: ${{ secrets.SFTP_PASS }}
+          local_path: './*'
+          remote_path: '/'
