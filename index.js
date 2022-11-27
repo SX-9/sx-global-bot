@@ -37,6 +37,7 @@ client.on('message', msg => {
         channels.push(channel.id);
         fs.writeFileSync('./db.json', JSON.stringify(channels));
         channel.send("Current channel registered.");
+        client.user.setActivity(`mv!register | ${channels.length} Universes`, { type: 'LISTENING' });
         channels.forEach(channel => {
             try {
                 cache.get(channel).send(embed2);
