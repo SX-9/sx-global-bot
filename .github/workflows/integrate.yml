@@ -14,4 +14,4 @@ jobs:
           port: '2022'
           password: ${{ secrets.SFTP_PASS }}
           local_path: './*'
-          remote_path: '/'
+          remote_path: '/home/container'
